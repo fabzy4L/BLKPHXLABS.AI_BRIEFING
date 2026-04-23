@@ -439,6 +439,8 @@ def generate_gemini_text(api_key: str, prompt: str, expect_json: bool = False):
             for fence in ["```json", "```JSON", "```"]:
                 clean = clean.replace(fence, "")
             clean = clean.strip()
+            # Strip control characters that break JSON parsing
+            clean = re.sub(r'[\x00-\x1f\x7f]', ' ', clean)
             start = min(
                 (clean.find('[') if '[' in clean else len(clean)),
                 (clean.find('{') if '{' in clean else len(clean))
@@ -449,7 +451,17 @@ def generate_gemini_text(api_key: str, prompt: str, expect_json: bool = False):
             if start < end:
                 clean = clean[start:end]
             clean = re.sub(r',\s*([}\]])', r'\1', clean)
-            return json.loads(clean)
+            try:
+                return json.loads(clean)
+            except json.JSONDecodeError:
+                # Fall back: extract only the outermost [ ] and retry
+                bracket_start = clean.find('[')
+                bracket_end = clean.rfind(']')
+                if bracket_start != -1 and bracket_end > bracket_start:
+                    clean = clean[bracket_start:bracket_end + 1]
+                    clean = re.sub(r',\s*([}\]])', r'\1', clean)
+                    return json.loads(clean)
+                raise
 
         return raw
 
@@ -479,7 +491,7 @@ Each element must have exactly these fields:
 If a field cannot be determined, use null. Do NOT invent values.
 
 RESEARCH FRAGMENTS:
-{ranked_context}
+{ranked_context[:12000]}
 """
     print("[PASS 1] Running extraction...")
     facts = generate_gemini_text(api_key, prompt, expect_json=True)
