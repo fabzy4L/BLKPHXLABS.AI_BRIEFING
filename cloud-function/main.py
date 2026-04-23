@@ -233,7 +233,8 @@ Scoring guide:
                 "contents": [{"parts": [{"text": prompt}]}],
                 "generationConfig": {
                     "temperature": 0.2,
-                    "maxOutputTokens": 200
+                    "maxOutputTokens": 500,
+                    "thinkingConfig": {"thinkingBudget": 0}
                 }
             },
             timeout=httpx.Timeout(connect=5.0, read=15.0, write=5.0, pool=5.0)
@@ -414,7 +415,8 @@ def generate_gemini_text(api_key: str, prompt: str, expect_json: bool = False):
         ],
         "generationConfig": {
             "temperature":    0.3 if expect_json else 0.5,
-            "maxOutputTokens": 2048 if expect_json else 8192
+            "maxOutputTokens": 2048 if expect_json else 8192,
+            "thinkingConfig": {"thinkingBudget": 0}
         }
     }
     try:
