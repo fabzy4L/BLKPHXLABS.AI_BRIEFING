@@ -241,14 +241,15 @@ Scoring guide:
         
         if response.status_code == 200:
             raw = response.json()['candidates'][0]['content']['parts'][0]['text']
-            clean = raw.strip().replace('```json', '').replace('```', '').strip()
-            
+            clean = re.sub(r'<thinking>.*?</thinking>', '', raw, flags=re.DOTALL)
+            clean = clean.strip().replace('```json', '').replace('```', '').strip()
+
             # Find JSON object bounds
             start = clean.find('{')
             end = clean.rfind('}') + 1
             if start >= 0 and end > start:
                 clean = clean[start:end]
-            
+
             result = json.loads(clean)
             score = result.get('relevance_score', 0)
             domains = result.get('domains', [])
@@ -431,7 +432,8 @@ def generate_gemini_text(api_key: str, prompt: str, expect_json: bool = False):
         raw = response.json()['candidates'][0]['content']['parts'][0]['text']
 
         if expect_json:
-            clean = raw.strip()
+            clean = re.sub(r'<thinking>.*?</thinking>', '', raw, flags=re.DOTALL)
+            clean = clean.strip()
             for fence in ["```json", "```JSON", "```"]:
                 clean = clean.replace(fence, "")
             clean = clean.strip()
