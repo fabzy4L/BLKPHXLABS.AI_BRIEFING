@@ -41,7 +41,7 @@ from bs4 import BeautifulSoup
 # 1. CONFIGURATION
 # ============================================================
 VOICE_NAME      = "en-US-Journey-D"
-GEMINI_URL      = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent"
+GEMINI_URL      = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 WEBHOOK_URL     = "https://script.google.com/macros/s/AKfycbwhbNbEbx_SqdESnwwlpA4MJwGZf2iDHBk03o4vQOttrdWcyaRymj5MMYWxDDRtPgby/exec"
 DRIVE_FOLDER_ID = "1Lxg5T-XXa_bbwR_vWb34Gr-HCqjNo_Kp"
 MEMORY_BLOB     = "memory/last_week_facts.json"
