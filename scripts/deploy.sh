@@ -45,6 +45,7 @@ gcloud functions deploy "$FUNCTION_NAME" \
   --timeout="540s" \
   --trigger-event-filters="type=google.cloud.storage.object.v1.finalized" \
   --trigger-event-filters="bucket=${BUCKET_NAME}" \
+  --trigger-location="us" \
   --set-env-vars="GCP_PROJECT=${PROJECT_ID}" \
   --quiet
 
