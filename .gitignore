@@ -1,0 +1,82 @@
+# ============================================================
+# BLKLABS .gitignore
+# NEVER commit secrets, credentials, or generated artifacts
+# ============================================================
+
+# --- SECRETS (CRITICAL — NEVER COMMIT) ---
+.env
+.env.*
+*.json.secret
+service-account*.json
+gcp-key*.json
+credentials.json
+client_secret*.json
+*_private_key*
+secrets/
+
+# --- GOOGLE APPS SCRIPT ---
+# appsscript.json may contain project IDs — review before committing
+# .clasp.json contains script ID — safe to commit, but listed here for awareness
+# .clasp.json
+
+# --- PYTHON ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# --- GENERATED MEDIA (large binary files — stored in GCS not git) ---
+*.mp3
+*.mp4
+*.wav
+*.aac
+/tmp/
+final.mp4
+latest_briefing.*
+
+# --- GOOGLE CLOUD / TERRAFORM ---
+*.tfstate
+*.tfstate.backup
+.terraform/
+terraform.tfvars
+*.auto.tfvars
+override.tf
+override.tf.json
+*_override.tf
+
+# --- IDEs ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# --- LOGS ---
+*.log
+logs/
+
+# --- NODE (if using clasp CLI) ---
+node_modules/
+npm-debug.log*
+yarn-error.log*
